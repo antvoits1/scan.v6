@@ -1,3 +1,10 @@
+function configurePdfWorker() {
+  const lib = globalThis.pdfjsLib;
+  if (!lib || !lib.GlobalWorkerOptions) throw new Error('PDF reader is not ready.');
+  const version = String(lib.version || '3.11.174');
+  lib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.js`;
+}
+
 async function readPdf(file) {
   await waitForLibrary('pdfjsLib', 'PDF reader');
   configurePdfWorker();
@@ -30,8 +37,8 @@ function withTimeout(promise, ms, label) {
 }
 const scannerLibrarySources={
   pdfjsLib:[
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js',
-    'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.16.105/build/pdf.min.js'
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js',
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js'
   ],
   OCRAD:[
     'https://cdn.jsdelivr.net/npm/ocrad.js@0.0.1/ocrad.js',
